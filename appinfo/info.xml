@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+   <id>user_alias</id>
+   <name>email aliases</name>
+   <description>App that allows secondary email addresses to be used as alternative user names. This app also adds a Google+ login button which can be used if the user has added his or her google username as an alias</description>
+   <version>0.4</version>
+   <licence>AGPL</licence>
+   <author>Christian Brinch</author>
+   <require>6</require>
+</info>

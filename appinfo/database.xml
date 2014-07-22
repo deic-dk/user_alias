@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>                                                                                       
+<database>                                                                                                                         
+  <name>*dbname*</name>                                                                                                         
+  <create>true</create>                                                                                                         
+  <overwrite>false</overwrite>                                                                                                  
+  <charset>utf8</charset>                                                                                                       
+  <table>                                                                                                                       
+    <name>*dbprefix*user_alias</name>                                                                                          
+    <declaration>                                                                                                              
+      <field>                                                                                                                
+        <name>email_alias</name>                                                                                                 
+        <type>text</type>                                                                                               
+        <notnull>true</notnull>                                                                                            
+        <length>64</length>
+      </field>                                                                                                               
+      <field>                                                                                                                
+        <name>OC_username</name>                                                                                                
+        <type>text</type>                                                                                                  
+        <notnull>true</notnull>                                                                                            
+        <length>64</length>                                                                                                
+      </field> 
+      <field>                                                                                                                
+        <name>activation</name>                                                                                                
+        <type>text</type>                                                                                                  
+        <notnull>true</notnull>
+        <length>128</length>        
+      </field> 
+      <field>                                                                                                                
+        <name>verified</name>                                                                                                
+        <type>boolean</type>                                                                                                  
+        <notnull>true</notnull>                                                                                            
+      </field> 
+    </declaration>                                                                                                             
+  </table>  
+</database>   
