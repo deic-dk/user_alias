@@ -134,9 +134,35 @@ class OC_User_Alias
   {
     $query = \OCP\DB::prepare("UPDATE `*PREFIX*user_alias` SET `verified` = true WHERE `activation` = ?");                                           
     $result = $query->execute( array( $code ));            
-    
+
     return $result;
   }
+
+  /*                                                                                                                         
+   * @brief Get a list of all user aliases                                                                              
+   * @param string $search                                                                                                    
+   * @param int $limit                                                                                                        
+   * @param int $offset                                                                                                       
+   * @return array associative array with all aliases (value) and corresponding uids (key)                              
+   *                                                                                                                          
+   * Get a list of all user aliases and user ids.                                                                            
+   */                                                                                                                         
+  public static function getAliases($search = '') {                                       
+    $displayNames = array();                                                                                                
+
+    $query = \OCP\DB::prepare("SELECT `OC_username`,`email_alias` FROM `*PREFIX*user_alias` WHERE `verified` = ? AND `email_alias` LIKE ?  ");                                           
+    $users = $query->execute( array( '1', $search.'%'  ));            
+
+    while ( $row = $users->fetchRow()) {
+      $displayNames[$row['OC_username']] = $row['email_alias'];
+    }
+
+    return $displayNames;                                                                                                   
+  }   
+
+
+
+
 
 
 }
