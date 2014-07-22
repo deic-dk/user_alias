@@ -21,6 +21,7 @@
 
 function getprofile(){
   var user = gapi.client.plus.people.get( {'userId' : 'me'} );   
+  document.cookie = 'GLIN=LoggedinwithGoogle; expires=0; path=/'
   user.execute( function(profile) {
     $.ajax({                                                                                                                          
       type: 'POST',                                                                                                                   
@@ -46,6 +47,18 @@ function onSignInCallback(authResult) {
   } 
 }
 
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+
 
 $(document).ready(function(){  
 
@@ -69,7 +82,10 @@ $(document).ready(function(){
   });  
 
   $('#logout').bind('click', function(){
-    window.open('https://accounts.google.com/Logout', "Sign out", "status=1,width=450,height=650");
+    if(readCookie('GLIN')){
+      window.open('https://accounts.google.com/Logout', "Sign out", "status=1,width=450,height=650");
+      document.cookie = 'GLIN=""; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';       
+    }
   });
 
 });
