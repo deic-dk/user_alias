@@ -19,21 +19,35 @@
  *                                                                                                                             
  */
 
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+
+
 function getprofile(){
   var user = gapi.client.plus.people.get( {'userId' : 'me'} );   
-  document.cookie = 'GLIN=LoggedinwithGoogle; expires=0; path=/'
-  user.execute( function(profile) {
-    $.ajax({                                                                                                                          
-      type: 'POST',                                                                                                                   
-      url:OC.linkTo('user_alias', 'ajax/google.php'),                                                                                 
-      dataType:'json',                                                                                                                
-      data: 'email='+profile.emails[0].value,                                                                                         
-      async:false,                                                                                                                    
-      success:function(s){                                                                                                            
-      },                                                                                                                              
-    });
-    location.reload();
-  });
+  if(readCookie('GLIN')){
+        user.execute( function(profile) {
+          $.ajax({                                                                                                                          
+          type: 'POST',                                                                                                                   
+          url:OC.linkTo('user_alias', 'ajax/google.php'),                                                                                 
+          dataType:'json',                                                                                                                
+          data: 'email='+profile.emails[0].value,                                                                                         
+          async:false,                                                                                                                    
+          success:function(s){                                                                                                            
+          },                                                                                                                              
+          });
+          location.reload();
+          });
+  }
 }
 
 function onSignInCallback(authResult) {
@@ -45,17 +59,6 @@ function onSignInCallback(authResult) {
   } else if (authResult['error']) {
     console.log('There was an error: ' + authResult['error']);
   } 
-}
-
-function readCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
-    var c = ca[i];
-    while (c.charAt(0)==' ') c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-  }
-  return null;
 }
 
 
@@ -70,16 +73,26 @@ $(document).ready(function(){
   s.parentNode.insertBefore(po, s);                                                                           
   })();                                                                                                        
 
-  $('<div id=\"gConnect\"> <button class=\"g-signin\" data-clientId=\"601574550986-1os7p2hifih30m227otefjbqc6qmo9gi.apps.googleusercontent.com\" data-accesstype=\"offline\" data-callback=\"onSignInCallback\" data-theme=\"dark\" data-cookiepolicy=\"single_host_origin\"></button> </div>  ').css({'margin-left': 'auto','margin-right': 'auto'}).appendTo('#login form ');
+  $('<div id=\"gConnect\"><div class=\"plchldr\" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 114px; height: 36px; position: absolute;"><button class=\"interceptClick\" type=\"button\" style=\"opacity:0; z-index:10001; left: 0px; top: 0px; position: absolute; cursor:pointer; outline: 0px; width:114px; height: 36px;\">Clicky</button></div><button class=\"g-signin\" data-clientId=\"601574550986-1os7p2hifih30m227otefjbqc6qmo9gi.apps.googleusercontent.com\" data-accesstype=\"offline\" data-callback=\"onSignInCallback\" data-theme=\"dark\" data-cookiepolicy=\"single_host_origin\"></button> </div>  ').css({'margin-left': 'auto','margin-right': 'auto'}).appendTo('#login form ');
 
   $('#gConnect').hide();
+  
+  $('.plchldr button.interceptClick').on('click', function() {
+    $('#___signin_0').children("button").click();
+    document.cookie = 'GLIN=LoggedinwithGoogle; expires=0; path=/'
+  });
+
+
   $('#login-guest-img').click(function(){                                                                            
     $('#gConnect').toggle('slow', 'linear');                                                                                                             
     /* This clumsy hack is neccessary for firefox to render the google button */
     $('#___signin_0').css({'width':'114px', 'height': '36px'})
+    $('#___signin_0').children("button").css({'width':'114px', 'height': '36px'})
     $('#___signin_0').children("iframe").css({'width':'114px', 'height': '36px'})
     /* End of hack */
   });  
+
+
 
   $('#logout').bind('click', function(){
     if(readCookie('GLIN')){
