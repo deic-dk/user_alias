@@ -31,22 +31,31 @@ function readCookie(name) {
 }
 
 
-
+// this function will get your google ID and compare this to the alias database
+// and log you in it there is a possitive match. 
 function getprofile(){
   var user = gapi.client.plus.people.get( {'userId' : 'me'} );   
   if(readCookie('GLIN')){
-        user.execute( function(profile) {
-          $.ajax({                                                                                                                          
-          type: 'POST',                                                                                                                   
-          url:OC.linkTo('user_alias', 'ajax/google.php'),                                                                                 
-          dataType:'json',                                                                                                                
-          data: 'email='+profile.emails[0].value,                                                                                         
-          async:false,                                                                                                                    
-          success:function(s){                                                                                                            
-          },                                                                                                                              
-          });
-          location.reload();
-          });
+    user.execute( function(profile) {
+      $.ajax({                                                                                                                          
+        type: 'POST',                                                                                                                   
+        url:OC.linkTo('user_alias', 'ajax/google.php'),                                                                                 
+        dataType:'json',                                                                                                                
+        data: 'email='+profile.emails[0].value,                                                                                         
+        async:false,                                                                                                                    
+        success:function(s){                                                                                                            
+          if(s){
+            location.reload();
+          } else {
+            alert('You have to specify a valid gmail account as login alias in your owncloud settings before you can sign in with Google+');
+            document.cookie = 'GLIN=""; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';       
+            $('#gConnect').show(); 
+          }          
+        },                                                                                                                              
+
+      });
+
+    });
   }
 }
 
@@ -64,7 +73,7 @@ function onSignInCallback(authResult) {
 
 
 $(document).ready(function(){  
-
+  // this is some google stuff
   (function() {                                                                                                            
     var po = document.createElement('script');                                                                  
     po.type = 'text/javascript'; po.async = true;                                                               
@@ -73,16 +82,20 @@ $(document).ready(function(){
   s.parentNode.insertBefore(po, s);                                                                           
   })();                                                                                                        
 
+  // the actual google login button. A transparent button is placed on top
+  // of the google button and this will catch the mouse click, set a cookie
+  // and click the google button below.
   $('<div id=\"gConnect\"><div class=\"plchldr\" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 114px; height: 36px; position: absolute;"><button class=\"interceptClick\" type=\"button\" style=\"opacity:0; z-index:10001; left: 0px; top: 0px; position: absolute; cursor:pointer; outline: 0px; width:114px; height: 36px;\">Clicky</button></div><button class=\"g-signin\" data-clientId=\"601574550986-1os7p2hifih30m227otefjbqc6qmo9gi.apps.googleusercontent.com\" data-accesstype=\"offline\" data-callback=\"onSignInCallback\" data-theme=\"dark\" data-cookiepolicy=\"single_host_origin\"></button> </div>  ').css({'margin-left': 'auto','margin-right': 'auto'}).appendTo('#login form ');
 
   $('#gConnect').hide();
-  
+
   $('.plchldr button.interceptClick').on('click', function() {
     $('#___signin_0').children("button").click();
     document.cookie = 'GLIN=LoggedinwithGoogle; expires=0; path=/'
   });
 
-
+  // making the button apear and disappear on mouse click on the 'alternative login'
+  // button
   $('#login-guest-img').click(function(){                                                                            
     $('#gConnect').toggle('slow', 'linear');                                                                                                             
     /* This clumsy hack is neccessary for firefox to render the google button */
@@ -93,7 +106,8 @@ $(document).ready(function(){
   });  
 
 
-
+  // log out of google if the user used google to login. This will open a new
+  // window (not so elegant).
   $('#logout').bind('click', function(){
     if(readCookie('GLIN')){
       window.open('https://accounts.google.com/Logout', "Sign out", "status=1,width=450,height=650");
