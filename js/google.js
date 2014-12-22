@@ -61,7 +61,6 @@ function getprofile(){
 
 function onSignInCallback(authResult) {
   if (authResult['access_token']) {    
-    $('#gConnect').hide(); 
     gapi.client.load('plus','v1', function(){
       getprofile();
     });
@@ -85,9 +84,9 @@ $(document).ready(function(){
   // the actual google login button. A transparent button is placed on top
   // of the google button and this will catch the mouse click, set a cookie
   // and click the google button below.
-  $('<div id=\"gConnect\"><div class=\"plchldr\" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 114px; height: 36px; position: absolute;"><button class=\"interceptClick\" type=\"button\" style=\"opacity:0; z-index:10001; left: 0px; top: 0px; position: absolute; cursor:pointer; outline: 0px; width:114px; height: 36px;\">Clicky</button></div><button class=\"g-signin\" data-clientId=\"601574550986-1os7p2hifih30m227otefjbqc6qmo9gi.apps.googleusercontent.com\" data-callback=\"onSignInCallback\" data-theme=\"dark\" data-cookiepolicy=\"single_host_origin\" data-scope="email"></button> </div>  ').css({'margin-left': 'auto','margin-right': 'auto'}).appendTo('#login form ');
+  $('<div id=\"gConnect\"><div class=\"plchldr\" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 114px; height: 36px; position: absolute;"><button class=\"interceptClick\" type=\"button\" style=\"opacity:0; z-index:10001; left: 0px; top: 0px; position: absolute; cursor:pointer; outline: 0px; width:114px; height: 36px;\">Clicky</button></div><button class=\"g-signin\" data-clientId=\"601574550986-1os7p2hifih30m227otefjbqc6qmo9gi.apps.googleusercontent.com\" data-callback=\"onSignInCallback\" data-theme=\"dark\" data-cookiepolicy=\"single_host_origin\" data-scope="email"></button> </div>  ').appendTo('#login form fieldset');
 
-  $('#gConnect').hide();
+  $('#gConnect').css({'width':'114px','margin':'50px auto 0'});
 
   $('.plchldr button.interceptClick').on('click', function() {
     $('#___signin_0').children("button").click();
@@ -97,8 +96,8 @@ $(document).ready(function(){
   // making the button apear and disappear on mouse click on the 'alternative login'
   // button
   $('#login-guest-img').click(function(){                                                                            
-    $('#gConnect').toggle('slow', 'linear');                                                                                                             
-    /* This clumsy hack is neccessary for firefox to render the google button */
+ 
+  /* This clumsy hack is neccessary for firefox to render the google button */
     $('#___signin_0').css({'width':'114px', 'height': '36px'})
     $('#___signin_0').children("button").css({'width':'114px', 'height': '36px'})
     $('#___signin_0').children("iframe").css({'width':'114px', 'height': '36px'})
