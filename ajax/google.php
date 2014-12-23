@@ -22,14 +22,17 @@
 
 OCP\JSON::checkAppEnabled('user_alias');
 
-$query =  \OCP\DB::prepare('SELECT `OC_username` FROM `*PREFIX*user_alias` where `email_alias` = ? AND `verified` = ?');
-$result = $query->execute( array( $_POST["email"], '1' ));
+if(OC_User::getUser()){
+  return false;
+} else {
+  $query =  \OCP\DB::prepare('SELECT `OC_username` FROM `*PREFIX*user_alias` where `email_alias` = ? AND `verified` = ?');
+  $result = $query->execute( array( $_POST["email"], '1' ));
 
-if($result){                                                                                                                                                               
-  $row = $result->fetchRow();                                                                                                                                              
-  OCP\JSON::encodedPrint($row['OC_username']);                                                                                                                                    
-  $_SESSION['user_id']=$row['OC_username'];
-  return true;                                                                                                                                                             
-}                
-
+  if($result){                                                                                                                                                               
+    $row = $result->fetchRow();                                                                                                                                              
+    OCP\JSON::encodedPrint($row['OC_username']);                                                                                                                                    
+    $_SESSION['user_id']=$row['OC_username'];
+    return true;                                                                                                                                                             
+  }                
+} 
 
