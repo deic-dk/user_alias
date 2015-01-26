@@ -29,7 +29,7 @@ $result=0;
 if ( $_POST['alias'] ) {
   $result = OC_User_Alias::addAlias( $_POST['alias'], OCP\USER::getUser() ) ;             
 } else {
-  CP\JSON::encodedPrint("Please enter alias"); 
+  OCP\JSON::encodedPrint("Please enter alias"); 
 }
 
 if ($result){
