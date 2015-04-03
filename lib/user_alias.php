@@ -147,11 +147,11 @@ class OC_User_Alias
    *                                                                                                                          
    * Get a list of all user aliases and user ids.                                                                            
    */                                                                                                                         
-  public static function getAliases($search = '') {                                       
+  public static function getAliases($search = '', $limit=null, $offset=null) {                                       
     $displayNames = array();                                                                                                
 
-    $query = \OCP\DB::prepare("SELECT `OC_username`,`email_alias` FROM `*PREFIX*user_alias` WHERE `verified` = ? AND `email_alias` LIKE ?  ");                                           
-    $users = $query->execute( array( '1', $search.'%'  ));            
+    $query = \OCP\DB::prepare("SELECT `OC_username`,`email_alias` FROM `*PREFIX*user_alias` WHERE `verified` = '1' AND `email_alias` LIKE ?", $limit, $offset);                                           
+    $users = $query->execute( array('%'.$search.'%'));            
 
     while ( $row = $users->fetchRow()) {
       $displayNames[$row['OC_username']] = $row['email_alias'];
