@@ -115,8 +115,8 @@ class OC_User_Alias
     $subject = 'Plese verify your DeIC storage alias';
     $message = 'Click on this link to verify your alias:
       https://data.deic.dk/index.php/settings/personal?code='.$activation;
-    $headers = 'From: nocloud@data.deic.dk' . "\r\n" .
-      'Reply-To: nocloud@data.deic.dk' . "\r\n" .
+    $headers = 'From: cloud@data.deic.dk' . "\r\n" .
+      'Reply-To: cloud@data.deic.dk' . "\r\n" .
       'X-Mailer: PHP/' . phpversion();
 
     mail($to, $subject, $message, $headers);
