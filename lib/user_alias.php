@@ -112,11 +112,12 @@ class OC_User_Alias
   public static function sendVerification( $alias, $activation )
   {
     $to      = $alias;
-    $subject = 'Plese verify your DeIC storage alias';
-    $message = 'Click on this link to verify your alias:
-      https://data.deic.dk/index.php/settings/personal?code='.$activation;
-    $headers = 'From: cloud@data.deic.dk' . "\r\n" .
-      'Reply-To: cloud@data.deic.dk' . "\r\n" .
+    $subject = 'Plese verify your storage alias';
+    $from    = \OCP\Config::getSystemValue('fromemail', '');
+    $message = 'Click on this link to verify your alias: '.
+      OC::$WEBROOT.'/index.php/settings/personal?code='.$activation;
+    $headers = 'From: ' .$from. "\r\n" .
+      'Reply-To: ' .$from. "\r\n" .
       'X-Mailer: PHP/' . phpversion();
 
     mail($to, $subject, $message, $headers);
