@@ -30,8 +30,9 @@ require_once 'user_alias/lib/auth.php';
 aliasLookup::tryAliasLogin();
 
 OCP\Util::addScript('user_alias','script');
-OCP\Util::addScript('user_alias','google');
-OCP\Util::addStyle('user_alias','google');
+// This seems to trigger strange save password popups on Firefox
+//OCP\Util::addScript('user_alias','google');
+//OCP\Util::addStyle('user_alias','google');
 
 OCP\App::register(Array(
     'order' => 40,
