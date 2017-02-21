@@ -31,8 +31,8 @@ aliasLookup::tryAliasLogin();
 
 OCP\Util::addScript('user_alias','script');
 // This seems to trigger strange save password popups on Firefox
-//OCP\Util::addScript('user_alias','google');
-//OCP\Util::addStyle('user_alias','google');
+OCP\Util::addScript('user_alias','google');
+OCP\Util::addStyle('user_alias','google');
 
 OCP\App::register(Array(
     'order' => 40,
