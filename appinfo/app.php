@@ -20,6 +20,14 @@
  *
  */
 
+if(isset($_SERVER['REQUEST_URI']) && ($_SERVER['REQUEST_URI']=='/' ||
+		strpos($_SERVER['REQUEST_URI'], "/js/")>0 ||
+		(strpos($_SERVER['REQUEST_URI'], "/apps/")>0 ||
+				strpos($_SERVER['REQUEST_URI'], "/apps/")===0 || strpos($_SERVER['REQUEST_URI'], "apps/")===0) &&
+		strpos($_SERVER['REQUEST_URI'], "/user_alias")==false)){
+	return;
+}
+
 OCP\App::checkAppEnabled('user_alias');
 
 OC::$CLASSPATH['OC_User_Alias']='apps/user_alias/lib/user_alias.php';
