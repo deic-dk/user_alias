@@ -149,8 +149,8 @@ class OC_User_Alias
 		$to      = $alias;
 		$name    = OCP\User::getDisplayName($uid);
 		$subject = 'Plese verify your email alias';
-		$from    = \OCP\Config::getSystemValue('fromemail', '');
-		$from    = \OCP\Config::getSystemValue('fromemail', '');
+		//$from    = \OCP\Config::getSystemValue('fromemail', '');
+		$from    = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$message = 'Click on this link to verify your alias: '.
 		//OC::$WEBROOT.'/index.php/settings/personal?code='.$activation;
 			OCP\Util::linkToAbsolute('', 'index.php/settings/personal', array('code' => $activation));
