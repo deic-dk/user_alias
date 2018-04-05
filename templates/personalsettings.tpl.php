@@ -25,7 +25,7 @@ OCP\Util::addStyle('user_alias', 'personalsettings');
 ?>
 
 <fieldset class="section"  id="user_alias">
-	<h2>Email aliases</h2>
+	<h2><?php p($l->t('Email aliases'));?></h2>
 
 	<br />
 
@@ -36,14 +36,14 @@ $result = "";
 
 foreach ($aliases as $alias => $verified) {
 if($verified){
- $status = 'Verified';
+	$status = $l->t('Verified');
 } else {
- $status = 'Not verified';
+	$status = $l->t('Not verified');
 }
 $result .= "<div".
 	(!empty($_['verified_alias_code'])?" verified_alias_code=".$_['verified_alias_code']:'').
 	" class='aliasaction' data-alias=\"".$alias."\" > ".$alias.
-	"<img class='deletebutton' title='Delete alias' src=" .
+	"<img class='deletebutton' title='".$l->t('Delete alias')."' src=" .
 	OCP\Util::imagePath('core', 'actions/delete.png') . " /> ".$status."</div>";
 }
 
@@ -51,8 +51,8 @@ echo $result;
 ?>
 	</div>
 
-	<input type="text" name='alias' id="alias" placeholder="new alias">
-	<label class="button" id='add'>Add alias</label> 
+	<input type="text" name='alias' id="alias" placeholder="<?php p($l->t('New alias'));?>">
+	<label class="button" id='add'><?php p($l->t('Add alias'));?></label> 
 	<p id="error"></p>
 
 </fieldset>
