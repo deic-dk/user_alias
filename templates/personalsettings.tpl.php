@@ -51,7 +51,7 @@ echo $result;
 ?>
 	</div>
 
-	<input type="text" name='alias' id="alias" placeholder="<?php p($l->t('New alias'));?>">
+	<input type="text" name='alias' id="alias" placeholder="<?php p($l->t('New alias'));?>"/>
 	<label class="button" id='add'><?php p($l->t('Add alias'));?></label> 
 	<p id="error"></p>
 
