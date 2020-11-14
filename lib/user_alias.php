@@ -220,9 +220,9 @@ class OC_User_Alias
 		return $result;
 	}
 
-	public static function dbGetAliases($search = '', $offset=null, $offset=null) {
+	public static function dbGetAliases($search = '', $limit=null, $offset=null) {
 		$limit = empty($limit)?null:$limit;
-		$limit = empty($offset)?null:$offset;
+		$offset = empty($offset)?null:$offset;
 		$displayNames = array();
 		$query = \OCP\DB::prepare("SELECT `OC_username`,`email_alias` FROM `*PREFIX*user_alias` WHERE `verified` = '1' AND `email_alias` LIKE ?", $limit, $offset);
 		$users = $query->execute( array('%'.$search.'%'));
